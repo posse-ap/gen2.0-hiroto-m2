@@ -1,0 +1,12 @@
+h1 {
+    width: 450px;
+    border-bottom: solid 2px #00ab36;
+}
+
+li {
+    list-style-type: none;
+    display: block;
+    border: 1px solid #ebebeb;
+    padding: 13px;
+    margin: 10px 0;
+}
