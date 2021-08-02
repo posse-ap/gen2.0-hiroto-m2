@@ -1,29 +1,33 @@
-let choice1 = document.getElementById('choice1');
-let choice2 = document.getElementById('choice2');
-let choice3 = document.getElementById('choice3');
+const choice1 = document.getElementById('choice1');
+const choice2 = document.getElementById('choice2');
+const choice3 = document.getElementById('choice3');
 
-// 選択肢のボタンの色を変える
-function movement(choiceno) {
-    let clicked_choice = document.getElementById('choice'+choiceno);
+const correctResponse = document.getElementById('correct-response');
+const wrongResponse = document.getElementById('wrong-response'); 
+
+/// ボタンを押した時実行する
+function movement(choiceNumber) {
+    const clickedChoice = document.getElementById('choice'+choiceNumber);
+    // 選択肢のボタンの色を変える
     choice3.classList.add('correct-answer-button');
-    clicked_choice.classList.add('wrong-answer-button');
+    clickedChoice.classList.add('wrong-answer-button');
 }
 
 // 正解の時の回答ボックスの表示
-let correct_response = document.getElementById('correct-response');
 choice3.addEventListener('click', function () {
-    let paragraph = document.createElement('p');
-    paragraph.innerHTML = '正解！';
-    correct_response.appendChild(paragraph);
-}, false);
+    const detailCorrectResponse = document.createElement('div');
+    detailCorrectResponse.className = 'correct-box'
+    detailCorrectResponse.innerHTML = `<!-- 正解の時の回答ボックスの内容 -->
+    <h1 class = "correct">正解!</h1>
+    <p>正解は「たかなわ」です！</p>`
+    correctResponse.appendChild(detailCorrectResponse);
+});
 
-// 不正解の時の回答ボックスの表示
-let wro_res = document.getElementById('wrong_response');
-function movement(choiceno) {
-    let clicked_choice = document.getElementById('choice'+choiceno);
-}
-clicked_choice.addEventListener('click', function () {
-    let paragraph = document.createElement('p');
-    paragraph.innerHTML = '不正解!';
-    wrong_response.appendChild(paragraph);
-}, false);
+// // 不正解の時の回答ボックスの表示
+// clicked_choice.addEventListener('click', function () {
+//     const detailWrongResponse = document.createElement('div');
+//     detailWrongResponse.innerHTML = `<!-- 不正解の時の回答ボックスの内容 -->
+//     <h1 class = "wrong">不正解!</h1>
+//     <p>正解は「たかなわ」です！</p>`
+//     wrongResponse.appendChild(detailWrongResponse);
+// });
