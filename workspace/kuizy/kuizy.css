@@ -49,13 +49,11 @@ li {
 .correct-answer-button {
     color: #fff;
     background-color: #287dff;
-    pointer-events: none;
 }
 
 .wrong-answer-button {
     color: #fff;
     background-color: #ff5128;
-    pointer-events: none;
 }
 
 .no-pointer {

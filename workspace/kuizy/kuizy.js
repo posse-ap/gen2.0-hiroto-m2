@@ -28,75 +28,85 @@ let choices = [
 
 let main = '';
 
-for (let i = 0; i < 10; i++) {
+for (let questNum = 0; questNum < 10; questNum++) {
     main += `<div class="whole">`
         + `<div class="quiz-box">`
-        + `<h1 class="question">${i+1}. この地名はなんて読む？</h1>`
+        + `<h1 class="question">${questNum + 1}. この地名はなんて読む？</h1>`
         + `<div class="image-box">`
-        + `<img src="${pic[i]}" alt="" class="quiz-img">`
+        + `<img src="${pic[questNum]}" alt="" class="quiz-img">`
         + `</div>`
-        + `<ul class="quiz-choice">`
-        + `<li id="choice1" onclick="movement(1)" onclick="">${choices[i][2]}</li>`
-        + `<li id="choice2" onclick="movement(2)">${choices[i][1]}</li>`
-        + `<li id="choice3" onclick="movement()">${choices[i][0]}</li>`
+        + `<ul id="quiz-choice${questNum}" class="quiz-choice">`
+        + `<li id="choice${questNum}-1">${choices[questNum][2]}</li>`
+        + `<li id="choice${questNum}-2">${choices[questNum][1]}</li>`
+        + `<li id="choice${questNum}-3">${choices[questNum][0]}</li>`
         + `</ul>`
-        + `<div id="correct-response"></div>`
-        + `<div id="wrong-response"></div>`
+        + `<div id="correct-response${questNum}"></div>`
+        + `<div id="wrong-response${questNum}"></div>`
         + `</div>`
         + `</div>`
 
     entire.innerHTML = main;
 }
 
-const choice1 = document.getElementById('choice1');
-const choice2 = document.getElementById('choice2');
-const choice3 = document.getElementById('choice3');
+let target = document.querySelector('ul');
 
-const correctResponse = document.getElementById('correct-response');
-const wrongResponse = document.getElementById('wrong-response');
+for (let questNum = 0; questNum < 10; questNum++) {
+    function shuffle () {
+        for (let cho = document.getElementById(`quiz-choice${questNum}`).children.length; cho >= 0; cho--) {
+            document.getElementById(`quiz-choice${questNum}`).appendChild(document.getElementById(`quiz-choice${questNum}`).children[Math.random() * cho | 0]);
+        }
+    }
+    window.addEventListener('load', function() {
+        shuffle();
+    });
+}
 
-/// ボタンを押した時実行する
-function movement(choiceNumber) {
-    const clickedChoice = document.getElementById('choice' + choiceNumber);
-    // 選択肢のボタンの色を変える
-    choice3.classList.add('correct-answer-button');
-    clickedChoice.classList.add('wrong-answer-button');
+for (let questNum = 0; questNum < 10; questNum++) {
+
+    // 正解の時の回答ボックスの表示
+    document.getElementById(`choice${questNum}-3`).addEventListener('click', function () {
+        document.getElementById(`choice${questNum}-3`).classList.add('correct-answer-button');
+        const detailCorrectResponse = document.createElement('div');
+        detailCorrectResponse.className = 'response-box';
+        detailCorrectResponse.innerHTML = `<!-- 正解の時の回答ボックスの内容 -->
+        <h1 class = "correct">正解!</h1>
+            <p>正解は「${choices[questNum][0]}」です！</p>`
+        document.getElementById(`correct-response${questNum}`).appendChild(detailCorrectResponse);
+        document.getElementById(`choice${questNum}-1`).classList.add('no-pointer');
+        document.getElementById(`choice${questNum}-2`).classList.add('no-pointer');
+        document.getElementById(`choice${questNum}-3`).classList.add('no-pointer');
+    });
+
+    // 不正解の時の回答ボックスの表示
+    document.getElementById(`choice${questNum}-1`).addEventListener('click', function () {
+        document.getElementById(`choice${questNum}-1`).classList.add('wrong-answer-button');
+        document.getElementById(`choice${questNum}-3`).classList.add('correct-answer-button');
+        const detailWrongResponse = document.createElement('div');
+        detailWrongResponse.className = 'response-box';
+        detailWrongResponse.innerHTML = `<!-- 不正解の時の回答ボックスの内容 -->
+            <h1 class = "wrong">不正解!</h1>
+            <p>正解は「${choices[questNum][0]}」です！</p>`
+        document.getElementById(`wrong-response${questNum}`).appendChild(detailWrongResponse);
+        document.getElementById(`choice${questNum}-1`).classList.add('no-pointer');
+        document.getElementById(`choice${questNum}-2`).classList.add('no-pointer');
+        document.getElementById(`choice${questNum}-3`).classList.add('no-pointer');
+    });
+    document.getElementById(`choice${questNum}-2`).addEventListener('click', function () {
+        document.getElementById(`choice${questNum}-2`).classList.add('wrong-answer-button');
+        document.getElementById(`choice${questNum}-3`).classList.add('correct-answer-button');
+        const detailWrongResponse = document.createElement('div');
+        detailWrongResponse.className = 'response-box';
+        detailWrongResponse.innerHTML = `<!-- 不正解の時の回答ボックスの内容 -->
+            <h1 class = "wrong">不正解!</h1>
+            <p>正解は「${choices[questNum][0]}」です！</p>`
+        document.getElementById(`wrong-response${questNum}`).appendChild(detailWrongResponse);
+        document.getElementById(`choice${questNum}-1`).classList.add('no-pointer');
+        document.getElementById(`choice${questNum}-2`).classList.add('no-pointer');
+        document.getElementById(`choice${questNum}-3`).classList.add('no-pointer');
+    });
 }
 
 
-// 正解の時の回答ボックスの表示
-choice3.addEventListener('click', function () {
-    const detailCorrectResponse = document.createElement('div');
-    detailCorrectResponse.className = 'response-box';
-    detailCorrectResponse.innerHTML = `<!-- 正解の時の回答ボックスの内容 -->
-    <h1 class = "correct">正解!</h1>
-    <p>正解は「たかなわ」です！</p>`
-    correctResponse.appendChild(detailCorrectResponse);
-    choice1.classList.add('no-pointer');
-    choice2.classList.add('no-pointer');
-    choice3.classList.add('no-pointer');
-});
 
-// 不正解の時の回答ボックスの表示
-choice1.addEventListener('click', function () {
-    const detailWrongResponse = document.createElement('div');
-    detailWrongResponse.className = 'response-box';
-    detailWrongResponse.innerHTML = `<!-- 不正解の時の回答ボックスの内容 -->
-    <h1 class = "wrong">不正解!</h1>
-    <p>正解は「たかなわ」です！</p>`
-    wrongResponse.appendChild(detailWrongResponse);
-    choice1.classList.add('no-pointer');
-    choice2.classList.add('no-pointer');
-    choice3.classList.add('no-pointer');
-});
-choice2.addEventListener('click', function () {
-    const detailWrongResponse = document.createElement('div');
-    detailWrongResponse.className = 'response-box';
-    detailWrongResponse.innerHTML = `<!-- 不正解の時の回答ボックスの内容 -->
-    <h1 class = "wrong">不正解!</h1>
-    <p>正解は「たかなわ」です！</p>`
-    wrongResponse.appendChild(detailWrongResponse);
-    choice1.classList.add('no-pointer');
-    choice2.classList.add('no-pointer');
-    choice3.classList.add('no-pointer');
-});
+
+
